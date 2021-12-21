@@ -1,0 +1,210 @@
+make.bat started	
+di 14-12-2021		
+14:27:03,25		
+
+  ___  ____  ____  ____  ____ (R)
+ /__    /   ____/   /   ____/
+___/   /   /___/   /   /___/   16.0   Copyright 1985-2019 StataCorp LLC
+  Statistics/Data Analysis            StataCorp
+                                      4905 Lakeway Drive
+     MP - Parallel Edition            College Station, Texas 77845 USA
+                                      800-STATA-PC        http://www.stata.com
+                                      979-696-4600        stata@stata.com
+                                      979-696-4601 (fax)
+
+Unlimited-user 2-core Stata network license expires 19 May 2022:
+       Serial number:  501709312204
+         Licensed to:  GIW
+                       Tilburg University
+
+Notes:
+      1.  Stata is running in batch mode.
+      2.  Unicode is supported; see help unicode_advice.
+      3.  More than 2 billion observations are allowed; see help obs_advice.
+      4.  Maximum number of variables is set to 5000; see help set_maxvar.
+
+
+running C:\Program Files\Stata16\profile.do ...
+
+. do preclean 
+
+. clear all
+
+. macro drop _all
+
+. 
+. program main
+  1.         preAmbule
+  2.         readBrandFinanceData    
+  3. end
+
+. 
+. program preAmbule
+  1.         cap log close
+  2.         set linesize 250
+  3.         version 16
+  4. 
+.         set matsize 11000
+  5.         set more off, permanently
+  6. 
+.         set seed 12345678
+  7.         set sortseed 12345678
+  8.         set scheme s2mono
+  9.         set type double, permanently 
+ 10.         adopath + ..\external
+ 11.         adopath + ..\external\ado
+ 12.         global locationData "../../raw/brand_value_data"
+ 13. end 
+
+.         
+. program readBrandFinanceData
+  1.         forvalues yr = 2007/2021 {
+  2.                 import delim using "$locationData/brandirectory-ranking-da
+> ta-global-`yr'.csv", varn(1) clear
+  3.                 rename brandvaluem brandValue
+  4.                 drop if position >100 
+  5.                 destring brandValue, force replace 
+  6.                 keep brand year brandValue position
+  7.                 if `yr'>2007 append using ../output/brandFinance.dta
+  8.                 save ../output/brandFinance.dta, replace        
+  9.                 display "`yr'"
+ 10.                 sleep 200
+ 11.                 }
+ 12. end
+
+. 
+. main
+set matsize ignored.
+    Matrix sizes are no longer limited by c(matsize) in modern Statas.  Matrix sizes are now limited by flavor of Stata.  See limits for more details.
+(set more preference recorded)
+(set type preference recorded)
+  [1]  (BASE)      "C:\Program Files\Stata16\ado\base/"
+  [2]  (SITE)      "C:\Program Files\Stata16\ado\site/"
+  [3]              "."
+  [4]  (PERSONAL)  "C:\Users\bbronnen\ado\personal/"
+  [5]  (PLUS)      "C:\Users\bbronnen\ado\plus/"
+  [6]  (OLDPLACE)  "c:\ado/"
+  [7]              "..\external"
+  [1]  (BASE)      "C:\Program Files\Stata16\ado\base/"
+  [2]  (SITE)      "C:\Program Files\Stata16\ado\site/"
+  [3]              "."
+  [4]  (PERSONAL)  "C:\Users\bbronnen\ado\personal/"
+  [5]  (PLUS)      "C:\Users\bbronnen\ado\plus/"
+  [6]  (OLDPLACE)  "c:\ado/"
+  [7]              "..\external"
+  [8]              "..\external\ado"
+(9 vars, 250 obs)
+(150 observations deleted)
+brandValue: all characters numeric; replaced as double
+(note: file ../output/brandFinance.dta not found)
+file ../output/brandFinance.dta saved
+2007
+(9 vars, 500 obs)
+(400 observations deleted)
+brandValue: all characters numeric; replaced as double
+(note: variable brand was str30, now str34 to accommodate using data's values)
+file ../output/brandFinance.dta saved
+2008
+(9 vars, 500 obs)
+(400 observations deleted)
+brandValue: all characters numeric; replaced as double
+(note: variable brand was str31, now str34 to accommodate using data's values)
+file ../output/brandFinance.dta saved
+2009
+(9 vars, 500 obs)
+(400 observations deleted)
+brandValue: all characters numeric; replaced as double
+(note: variable brand was str32, now str34 to accommodate using data's values)
+file ../output/brandFinance.dta saved
+2010
+Note: Unmatched quote while processing row 61; this can be due to a formatting problem in the file or because a quoted data element spans multiple lines. You should carefully inspect your data after importing. Consider using option
+    bindquote(strict) if quoted data spans multiple lines or option bindquote(nobind) if quotes are not used for binding data.
+Note: Unmatched quote while processing row 62; this can be due to a formatting problem in the file or because a quoted data element spans multiple lines. You should carefully inspect your data after importing. Consider using option
+    bindquote(strict) if quoted data spans multiple lines or option bindquote(nobind) if quotes are not used for binding data.
+Note: Unmatched quote while processing row 290; this can be due to a formatting problem in the file or because a quoted data element spans multiple lines. You should carefully inspect your data after importing. Consider using option
+    bindquote(strict) if quoted data spans multiple lines or option bindquote(nobind) if quotes are not used for binding data.
+Note: Unmatched quote while processing row 291; this can be due to a formatting problem in the file or because a quoted data element spans multiple lines. You should carefully inspect your data after importing. Consider using option
+    bindquote(strict) if quoted data spans multiple lines or option bindquote(nobind) if quotes are not used for binding data.
+(9 vars, 502 obs)
+(402 observations deleted)
+brandValue: all characters numeric; replaced as double
+file ../output/brandFinance.dta saved
+2011
+(9 vars, 501 obs)
+(401 observations deleted)
+brandValue: all characters numeric; replaced as double
+(note: variable brand was str41, now str57 to accommodate using data's values)
+file ../output/brandFinance.dta saved
+2012
+(9 vars, 500 obs)
+(400 observations deleted)
+brandValue: all characters numeric; replaced as double
+(note: variable brand was str35, now str57 to accommodate using data's values)
+file ../output/brandFinance.dta saved
+2013
+(9 vars, 500 obs)
+(400 observations deleted)
+brandValue: all characters numeric; replaced as double
+(note: variable brand was str29, now str57 to accommodate using data's values)
+file ../output/brandFinance.dta saved
+2014
+(9 vars, 500 obs)
+(400 observations deleted)
+brandValue: all characters numeric; replaced as double
+(note: variable brand was str32, now str57 to accommodate using data's values)
+file ../output/brandFinance.dta saved
+2015
+(9 vars, 500 obs)
+(400 observations deleted)
+brandValue: all characters numeric; replaced as double
+(note: variable brand was str34, now str57 to accommodate using data's values)
+file ../output/brandFinance.dta saved
+2016
+(9 vars, 500 obs)
+(400 observations deleted)
+brandValue: all characters numeric; replaced as double
+(note: variable brand was str34, now str57 to accommodate using data's values)
+file ../output/brandFinance.dta saved
+2017
+(9 vars, 500 obs)
+(400 observations deleted)
+brandValue: all characters numeric; replaced as double
+(note: variable brand was str41, now str57 to accommodate using data's values)
+file ../output/brandFinance.dta saved
+2018
+(9 vars, 500 obs)
+(400 observations deleted)
+brandValue: all characters numeric; replaced as double
+(note: variable brand was str32, now str57 to accommodate using data's values)
+file ../output/brandFinance.dta saved
+2019
+(9 vars, 500 obs)
+(400 observations deleted)
+brandValue: all characters numeric; replaced as double
+(note: variable brand was str34, now str57 to accommodate using data's values)
+file ../output/brandFinance.dta saved
+2020
+(9 vars, 500 obs)
+(400 observations deleted)
+brandValue: all characters numeric; replaced as double
+(note: variable brand was str32, now str57 to accommodate using data's values)
+file ../output/brandFinance.dta saved
+2021
+
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+.         
+.         
+. 
+end of do-file
+make.bat completed	
+di 14-12-2021		
+14:27:08,95		

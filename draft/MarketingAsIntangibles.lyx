@@ -1,0 +1,1519 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{setspace}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{setspace}
+
+\usepackage{booktabs}
+%\setlength{\bibsep}{6pt plus 0.2ex}
+%\setlength{\bibsep}{2pt plus 0.05ex}
+\usepackage{pdflscape}
+\end_preamble
+\use_default_options true
+\begin_modules
+theorems-ams-bytype
+theorems-ams-extended-bytype
+theorems-sec-bytype
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "times" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family rmdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command bibtex
+\index_command default
+\float_placement H
+\paperfontsize 11
+\spacing onehalf
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\author 263584303 "jdube"
+\author 1991570617 "bbronnen"
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Intangible Marketing Capital
+\begin_inset Newline newline
+\end_inset
+
+(outline)
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Acknowledgement
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Author
+Bart J.
+ Bronnenberg,
+\shape italic
+ CentER, Tilburg University and CEPR
+\begin_inset Newline newline
+\end_inset
+
+
+\shape default
+
+\begin_inset VSpace 0cm
+\end_inset
+
+Jean-Pierre Dubé, 
+\shape italic
+University of Chicago Booth School of Business and NBER
+\begin_inset Newline newline
+\end_inset
+
+
+\shape default
+
+\begin_inset VSpace 0cm
+\end_inset
+
+Chad Syverson, 
+\shape italic
+University of Chicago Booth School of Business and NBER
+\shape default
+
+\begin_inset VSpace 0cm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+setstretch{1.5}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+At least since 
+\begin_inset CommandInset citation
+LatexCommand citet
+after " p.756"
+key "Shaw-1912"
+literal "false"
+
+\end_inset
+
+, economists have acknowledged the quantitative importance of 
+\begin_inset Formula $marketing$
+\end_inset
+
+ – advertising, branding, promoting, 
+\begin_inset Quotes eld
+\end_inset
+
+selling
+\begin_inset Quotes erd
+\end_inset
+
+ and trademarking – to firms and industrial output.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Coase1937"
+literal "false"
+
+\end_inset
+
+ argues that 
+\begin_inset Quotes eld
+\end_inset
+
+the introduction of the firm was primarily due to the existence of marketing
+ costs.
+\begin_inset Quotes erd
+\end_inset
+
+ Similarly, 
+\begin_inset CommandInset citation
+LatexCommand citet
+after " p.16"
+key "Braithwaite-1928"
+literal "false"
+
+\end_inset
+
+ notes that 
+\begin_inset Quotes eld
+\end_inset
+
+goods cost as much to market as they do to manufacture,
+\begin_inset Quotes erd
+\end_inset
+
+ including the communication costs associated with advertising and branding.
+ In an early quantification of the US marketing sector, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "GalbraithBlack1935"
+literal "false"
+
+\end_inset
+
+ stress the large role of demand for convenience and service.
+ Surprisingly, the extant literatures in industrial organization and macro-produ
+ctivity have largely abstracted away from the role of marketing investments
+ on industry structure and output.
+\end_layout
+
+\begin_layout Standard
+Brand capital is recognized as a critical economic competence for a firm
+ and, accordingly, a key component of intangible capital 
+\begin_inset CommandInset citation
+LatexCommand citet
+before "e.g.,"
+key "Corrado-Hulten-Sichel-2005"
+literal "false"
+
+\end_inset
+
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+(See Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:U.S.-Investment-Rates-intangibles"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+
+.
+ Brand capital generates incremental revenue streams (i.e., marginal revenue
+ product) through various sources such as (a) the awareness and consideration
+ of a product
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "LaurentKapfererRoussel1995,Shocker-et-al-1991"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+, and (b) the reputation and beliefs about quality
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Bai-2017,McDevitt-2011,McDevitt-2014,Minichilli-etal-2021,Shapiro1982,Shapiro1983"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+ It is also persistent and associated with loyalty, either through learning
+ and taste formation 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Bronnenberg-Dube-Gentzkow-2012,Bronnenberg-Dube-Sanders-2020"
+literal "false"
+
+\end_inset
+
+ or through habits and inertia in buying behavior
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Keane-1997,Dube-Hitsch-Rossi-2009,Dube-Hitsch-Rossi-2010"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+ Findings suggest much longer-lived effects for branding than for advertising.
+ While this disparity might merely reflect a flaw in ad studies that measure
+ marginal effects that are local to the firm's optimal advertising level
+ (i.e., curves are flat near FOCs and reflect small effect sizes), there is
+ good reason to think brand capital is broader than mere advertising.
+ Branding reflects marketing expenditures that build various complementary
+ capital stocks such as consumer knowledge or expertise, and relations with
+ retailers, which all create persistent advantages to firms who create (or
+ acquire) them.
+\end_layout
+
+\begin_layout Standard
+By the early 2000s, fixed investment in intangible capital
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Intangible capital can be classified broadly as databases, R&D, new copyrights
+ & licenses, 
+\emph on
+brand equity
+\emph default
+ and better organizational structures 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Corrado-Hulten-Sichel-2005"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+ in the U.S.
+ was estimated at nearly $1 trillion (10-11% of U.S.
+ GDP), almost none of which appears in National Income Product Accounts
+ (NIPA) in spite of being roughly comparable to the rate of investment in
+ tangible capital.
+ Close to 20% of this intangible capital investment ($235 Billion annually)
+ was attributed to marketing expenditures to build and sustain brand equity
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Corrado-Hulten-Sichel-2005"
+literal "false"
+
+\end_inset
+
+.
+ We believe the economics literature has unduly neglected intangible marketing
+ and brand capital and its micro and macro implications.
+ In this article, we will first present several facts about the size of
+ the marketing investment in the United States (section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Marketing-investment"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ We will also present data regarding the perceived corporate value of brands
+ created by these investments.
+ We next discuss in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Explanation-of-investment"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ several theoretical justifications for the striking magnitude of marketing
+ outlays.
+ Finally, in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:What-is-built?"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, we comment on the private and social returns of marketing investments
+ and give meaning to intangible marketing capital.
+\end_layout
+
+\begin_layout Section
+Marketing spending and intangible branding capital
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Marketing-investment"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Marketing spending is substantial and has been the subject of considerable
+ debate in economics and business research.
+ For instance, economists have debated the economic relevance of marketing
+ expenditures since as early as the 1930s: 
+\begin_inset Quotes eld
+\end_inset
+
+Clearly, in any case, our future appraisals of gains and losses in economic
+ efficiency must include and emphasize marketing not less than industry,
+ agriculture and like components of the economy.
+ The importance of marketing would alone justify such inclusion and emphasis;
+ the fact that increased marketing or commercial costs may be a direct result
+ of increased industrial efficiency [...] makes it essential.
+\begin_inset Quotes erd
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand citep
+after "p.413"
+key "GalbraithBlack1935"
+literal "false"
+
+\end_inset
+
+ In this section, we present several stylized facts about marketing spending
+ on advertising and wages for the marketing professionals that manage these
+ outlays.
+ We then present two sets of estimates of intangible brand capital to motivate
+ its broad economic importance.
+\end_layout
+
+\begin_layout Subsection
+Advertising outlays
+\end_layout
+
+\begin_layout Standard
+We report advertising outlays here, taken from national accounts.
+ We may also report distribution costs based on the share of GDP due to
+ ISIC G (retail and wholesale).
+\change_inserted 263584303 1634238093
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 263584303 1634238166
+JP: concern is that these probably create a different type of intangible
+ capital for which we don't have good theory/evidence to say much besides
+ role of relationships in supply chain can give firms advantages that indirectly
+ create value for final consumers (e.g., faster delivery, lower prices etc).
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
+
+\end_layout
+
+\begin_layout Subsection
+Investments in labor in marketing-related professions
+\end_layout
+
+\begin_layout Standard
+A large share of the labor force is dedicated to creating and curating brand
+ capital.
+ While related to 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "McCloskey-Klamer-1995"
+literal "false"
+
+\end_inset
+
+'s finding that 25 percent of GDP reflects persuasion, we view brand capital
+ formation as distinct.
+ Using BLS occupation-by-industry data, we determine that X% of the US labor
+ force is employed in marketing or marketing-related professions.
+\end_layout
+
+\begin_layout Subsection
+Brands and estimates of brand value
+\end_layout
+
+\begin_layout Standard
+We now report two sets of estimates of capitalized brand values and the
+ associated intangibles created through marketing effort.
+ First.
+ we re-create (and update) the intangible brand capital time series as in
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Corrado-Hao-2013"
+literal "false"
+
+\end_inset
+
+.
+ The ISO 20671 Norm on brand evaluation states that 
+\begin_inset Quotes eld
+\end_inset
+
+Brand valuation refers to the estimation of the monetary value of a brand
+ to a company in a transaction whether it is internal or external (as with
+ an investment, purchase, sale or licensing agreement).
+ It is the financial equity the company has in the brand as a transferrable
+ asset.
+\begin_inset Quotes erd
+\end_inset
+
+ So we also report industry estimates of the financial valuations of brands
+ based on royalty relief: the net present value of money saved by owning
+ the brand as opposed to paying a licensing fee that is typical in a given
+ industry for selling under a brand name.
+ In spite of imperfections, these data reflect the manner in which many
+ marketing professionals and investors measure the market value of their
+ brands and returns to branding.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+BB: Shows, like Corrado and Hao 2013 that brand value is rising 2007-2021.
+ Shows that the value represented by the top 100 global brands increased
+ from $1.5 Trillion in 2007 to $4.1 Trillion in 2021 (the GDP of Germany is
+ $3.7 Trillion).
+ 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename BrandValue.JPG
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Why are marketing investments large?
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Explanation-of-investment"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this section, we discuss established academic theories that justify the
+ magnitude of marketing investments reported in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Marketing-investment"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ We first discuss various mechanisms through which marketing investments
+ affect consumer demand and industrial market structure along with the persisten
+ce in these effects, reflecting the role of marketing-related intangible
+ capital stocks.
+ We focus on three mechanisms suggested in the literature: (1) reducing
+ transaction and search costs, (2) reputation and the role of prestige and/or
+ quality, and (3) competition and the role of strategic interaction and
+ investment escalation.
+\end_layout
+
+\begin_layout Subsection
+Raising demand by reducing transaction and search costs
+\end_layout
+
+\begin_layout Standard
+Product evaluation and effort to search for product attributes prior to
+ purchase require time, a scarce resource to consumers.
+ Typically, consumers only consider a subset of the product variety available
+ to them, and may not fully understand all attributes of those options about
+ which they are aware.
+ Firms can invest in brands and branding to reduce search and evaluation
+ costs and to influence consumer consideration and awareness at the point
+ of purchase.
+\end_layout
+
+\begin_layout Subsection
+Reputation and the Role of Prestige and/or Quality
+\end_layout
+
+\begin_layout Standard
+Consumers often face ex-ante uncertainty about the quality of products.
+ In addition, they may be risk averse.
+ They may therefore prefer brands with which they are familiar or that have
+ a reputation for supplying high quality products.
+ In equilibrium, such reputations can emerge if consumers have a willingness-to-
+pay for quality and a firm with a strong reputation is incentivized to continue
+ to supply high-quality goods in the future to maintain its price premium.
+\end_layout
+
+\begin_layout Standard
+Additionally, consumers may derive consumption utility from the brand itself.
+ According to the 
+\begin_inset Quotes eld
+\end_inset
+
+persuasion
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+prestige
+\begin_inset Quotes erd
+\end_inset
+
+ view, marketing expenditure in advertising and other forms of branding
+ can create a consumable intangible service (e.g., prestige, lifestyle) that
+ is complementary to the branded good or service 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Becker-Murphy-1993,Kamenica-Naclerio-Malani-2013"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+A Strategic Choice Affecting Competition
+\end_layout
+
+\begin_layout Standard
+Marketing expenditures confer private gains to firms in the form of profits,
+ through e.g., price premia or incremental sales.
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+Marketing spend to reduce consumer search and transaction costs and brand
+ building–the two other categories above–can also raise profits (think of
+ the Butters model for instance in the search case).
+ Thus the taxonomy here is useful but is not composed of completely mutually
+ exclusive categories.
+ We should think about whether such a categorization is possible, or whether
+ there are fundamental overlaps in any categorization.
+\end_layout
+
+\end_inset
+
+ Constant (or even increasing) returns to branding that can sustain a high
+ marginal impact of these investments even at high levels of investment
+ can lead to escalation in advertising or other forms of marketing in equilibriu
+m (e.g., prisoner's dilemmas)
+\change_inserted 1991570617 1634290143
+.
+\change_unchanged
+
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+JP: What are examples of papers in this spirit? I ask because I could not
+ find any mention of prisoner's dilemma in Bagwell's survey.
+ Though I can find stylized model examples in the marketing journals.
+
+\change_deleted 1991570617 1634290120
+ 
+\change_unchanged
+
+\end_layout
+
+\begin_layout Plain Layout
+BB: Isn't this the way much of the field discusses, e.g., promotion displays
+ and discounts too? What I had in mind here are papers on share-of-voice
+ = share-of-sales.
+ If advertising has little impact on total sales, then you would be better
+ off in an equilibrium where no-one spends.
+ Makes sense? I recall Pradeep having a paper on optimal share-of-voice
+ = share-of-sales.
+
+\change_deleted 1991570617 1634290120
+ 
+\change_unchanged
+
+\end_layout
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\begin_layout Plain Layout
+I also wonder if this scenario clearly leads to PDs.
+ Sutton's static model shows how escalation in advertising creates endogenous
+ entry barriers that sustain concentration (I don't know if I would describe
+ this as entry deterrence ...
+ see next note).
+\end_layout
+
+\begin_layout Plain Layout
+CS: Iizuka and Jin (JEMS 2005) estimated how much of (pharma) advertising
+ was market expanding vs.
+ market stealing.
+ We can also shoehorn Mankiw and Whinston's analysis of the welfare effects
+ of entry, which has a big role for business stealing, to talk about the
+ issue more broadly.
+\end_layout
+
+\end_inset
+
+ When branding costs are fixed and sunk, strategic interaction can also
+ lead to an escalation in marketing investments that creates barriers to
+ entry, sustaining market power and concentration 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Sutton1991"
+literal "false"
+
+\end_inset
+
+
+\change_inserted 1991570617 1634290148
+.
+\change_unchanged
+
+\end_layout
+
+\begin_layout Section
+What Are the Social Welfare Effects of Marketing? 
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:What-is-built?"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this section, we focus on the social welfare effects of marketing.
+ Some economists have argued that marketing constitutes a zero-sum game
+ in which firms use branding to steal market share from one another, creating
+ no inherent social benefit and potentially generating a wasteful duplication
+ of resources.
+ However, the literature has found that marketing may increase the overall
+ market size, toughen price or quality competition, and reduce search and
+ transaction costs, all of which potentially increase social welfare.
+\end_layout
+
+\begin_layout Subsection
+Lowering transaction and time cost
+\end_layout
+
+\begin_layout Standard
+At a societal level, marketing involves a transfer of consumers' (time and
+ information processing) costs of buying to firms' (money) costs of selling.
+ We discuss contexts in which this relationship creates a social benefit
+ through the creation of intangible capital.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+JP: Just a thought.
+ but are we stretching ourselves too thin by trying to discuss all aspects
+ of marketing and to treat them as 
+\begin_inset Quotes eld
+\end_inset
+
+brand building?
+\begin_inset Quotes erd
+\end_inset
+
+ I agree that chains of retail stores reduce travel costs.
+ But, is this the same thing as brand capital? One of Erik's concerns is
+ that we are trying to accomplish too much with this survey.
+ In short, I agree that advertising and the creation of brand capital (e.g.,
+ reputations) not only help consumers find what they need, it does so in
+ a more efficient manner than having consumers repeatedly engage in search.
+ But, I am not sure distribution channels work through brand capital per
+ se.
+ again, just a thought.
+ This is not an article about 
+\begin_inset Quotes eld
+\end_inset
+
+everything there is to know about marketing.
+\begin_inset Quotes erd
+\end_inset
+
+ Instead, it's a survey about 
+\begin_inset Quotes eld
+\end_inset
+
+brand capital
+\begin_inset Quotes erd
+\end_inset
+
+ and how it relates to 
+\begin_inset Quotes eld
+\end_inset
+
+some
+\begin_inset Quotes erd
+\end_inset
+
+ marketing spending.
+\end_layout
+
+\begin_layout Plain Layout
+BB: You know Erik's wishes better than I do, so if you think we need to
+ restrain ourselves here, that is obviously fine.
+
+\change_deleted 263584303 1634309581
+ 
+\change_unchanged
+
+\end_layout
+
+\begin_layout Plain Layout
+As a separate point, I do not know which aspect of marketing generates more
+ societal value (i.e., distribution vs branding).
+ It would be a good question for us to work on in the future.
+ For instance, if we look at the value added in national accounts represented
+ by ISIC G (retail + wholesale), relative to the outlays of advertising,
+ it seems the former is representing more value.
+\end_layout
+
+\begin_layout Plain Layout
+CS: Happy to work with consensus here, as discussed via email.
+ Maybe focus on brand and just mention that this accounts for only a portion
+ of marketing-driven intangibles.
+\end_layout
+
+\begin_layout Plain Layout
+BB: Agree.
+
+\change_deleted 263584303 1634309581
+ 
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+While the extant literature finds substantial economies of scale in the
+ supply of information to consumers through mass media, society's cost from
+ consumers privately searching for product information is likely to scale
+ linearly in the extensive consumer margin.
+ It follows that mass media can reduce the social cost of informing large
+ markets about the existence of products and their qualities.
+ We expect a similar argument to apply to distribution.
+ It is very expensive for consumers to travel independently to far-away
+ sellers as opposed to around-the-corner retailers.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+What do we know about persistence of these? How clean is the distinction
+ between them, and between them and brand-based intangibles?
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+JP: as above, I am not following what these stocks have to do with brand
+ capital.
+ Perhaps you are referring to corporate brands and the reputation for being
+ 
+\begin_inset Quotes eld
+\end_inset
+
+trustworthy
+\begin_inset Quotes erd
+\end_inset
+
+ for instance.
+ But I'm still concerned we are stretching this too thin.
+ Nothing prevents us from including a disclaimer in intro that we are not
+ discussing all facets of 
+\begin_inset Quotes eld
+\end_inset
+
+marketing.
+\begin_inset Quotes erd
+\end_inset
+
+ While I agree this would be another economic competency, I don't think
+ it's the same as what Corrado et al were measuring.
+ Maybe this is somethign we could discuss in conclusions regarding other
+ measurement issues.
+ I.e., Corrado et al focus on product brand capital and neglect the important
+ domain of corporate brand capital.
+ But we would need to think carefully about how investments are made in
+ this domain.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Repeated interactions
+\begin_inset Quotes erd
+\end_inset
+
+ creates relational capital, sure.
+ But, that in itself does not leave us with a major expenditure category
+ that might be mis-classified 
+\begin_inset Quotes eld
+\end_inset
+
+on the books
+\begin_inset Quotes erd
+\end_inset
+
+ in contrast with, say, advertising and branding investments.
+\end_layout
+
+\begin_layout Plain Layout
+BB: Re-reading this again, I concur.
+ This can go.
+
+\change_deleted 263584303 1634309581
+ 
+\change_unchanged
+
+\end_layout
+
+\begin_layout Plain Layout
+CS: Actually i think there is a good case to be made that brand effects
+ reduce search/transcation costs.
+ Isn't that the old story why people eat at chain restaurants when they're
+ out of town? I don't want to go search forever to see what restaurants
+ are good; I'll take the expected value of the brand.
+\end_layout
+
+\begin_layout Plain Layout
+JP: I was referring to the supplier and distributor relationships.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Building brands
+\end_layout
+
+\begin_layout Standard
+Recent research finds that consumers form persistent preferences for brands,
+ brand capital stocks, over their lifetime 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Bronnenberg-Dube-Gentzkow-2012,Bronnenberg-Dube-Joo-2021"
+literal "false"
+
+\end_inset
+
+ and even across generations 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Anderson-Kellow_Langer-Sallee-2015"
+literal "false"
+
+\end_inset
+
+.
+ These capital stocks serve as a highly persistent source of product differentia
+tion for the firms that own the corresponding trademarks, enabling them
+ to sustain a profitable price premium 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Scherer-1970,Bronnenberg-Dube-Gentzkow-Shapiro"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The literature has also found that brands and branding can act like complementar
+y goods to the advertised brands, with consumers deriving an intrinsic utility
+ from the consumption of the brand itself especially when in conjunction
+ with the consumption of the branded product.
+ For example, the conspicuous consumption of branded luxury goods may create
+ a direct 
+\begin_inset Quotes eld
+\end_inset
+
+prestige
+\begin_inset Quotes erd
+\end_inset
+
+ benefit, or an indirect consumable signalling benefit.
+ This literature tends to default to the view that all utility is welfare.
+ Howevcr, one might question the surplus associated with a consumer paying
+ a substantial price premium for branded Fiji water or a Mexican worker
+ paying a 25% load to put money into a retirement account.
+ Reputational capital is another mechanism through which brands can drive
+ demand if consumers believe the brand proxies for quality/reliability and
+ are willing to pay a price premium.
+ The combination of product uncertainty and the high costs of product evaluation
+ and search for information increase the scope for misinformation, with
+ consumers paying a price premium even if the branded good is actually undiffere
+ntiated 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Bronnenberg-Dube-Gentzkow-Shapiro,McDevitt-2011"
+literal "false"
+
+\end_inset
+
+.
+ Such brand misinformation seems potentially socially harmful if it allows
+ firms to charge a price premium without generating any incremental surplus
+ to consumers.
+\end_layout
+
+\begin_layout Subsection
+Competition
+\end_layout
+
+\begin_layout Standard
+On the supply side, strategic marketing investments in persistent brand
+ capital have been shown to lead to sustainable competitive advantage and
+ profits 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Doraszelski-Markovitch-2007,Sutton1991"
+literal "false"
+
+\end_inset
+
+.
+ The effects of branding on social welfare depend, in part, on the extent
+ to which brand capital stocks merely generate business-stealing effects
+ between rivals or genuinely expand markets.
+ We discuss the role of strategic complementarity in branding, pricing and
+ the supply of quality in understanding the potential social benefits of
+ brands and branding.
+ We also discuss the potential role of marketing expertise (human capital)
+ and its complementarity with marketing investment.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+JP: This seems like a stretch.
+ Do we think branding causes competitors to innovate? Is this supposed to
+ be a welfare benefit of branding? CS: I'm not sure about entry effects,
+ either way.
+ Need to think more.
+ BB: I merely meant to say that any marketing action that raises private
+ profits by incumbents attracts innovation and entry by entrepreneurs, i.e.,
+ the standard Schumpeterian argument.
+ But, obviously that same marketing effort may increase barriers to entry.
+
+\change_deleted 263584303 1634308877
+ 
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Productivity and Growth
+\end_layout
+
+\begin_layout Standard
+We will measure implications of intangible brand capital stocks for productivity
+ and GDP growth.
+\change_inserted 1991570617 1634293171
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 1991570617 1634293203
+BB: Maybe this is a better place to provide a Schumpeterian perspective
+ if we think it is important.
+ 
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
+
+\end_layout
+
+\begin_layout Subsection
+Bottom line 
+\end_layout
+
+\begin_layout Standard
+We lean towards the conclusion that marketing expenditures are typically
+ more than a zero-sum game and that they build persistent intangible capital
+ stocks that should be valued as outputs when produced and inputs into productio
+n when employed.
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+BB: Can we actually try to quantify this share, or are we just arguing based
+ on the literature so far that there's reason to believe social benefits
+ obtain often enough to think of the social net as positive?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Areas ripe for future work
+\end_layout
+
+\begin_layout Enumerate
+We discuss the debate in accounting regarding the logic and practicality
+ of capitalizing investments in intangible brand capital on companies' balance
+ sheets instead of treating them as operating expenses.
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Enumerate
+Intangibles typically aggregated as expense items in Cost of Sales or SG&A
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Lev2019"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+See 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Lev2019"
+literal "false"
+
+\end_inset
+
+ for survey of arguments in favor and 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Skinner2009"
+literal "false"
+
+\end_inset
+
+ for survey of arguments against.
+\end_layout
+
+\begin_layout Enumerate
+See 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kanodia-Sapra_Venug2004"
+literal "false"
+
+\end_inset
+
+ for an economic theory of the arguments for and against.
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+We discuss the debate regarding the inclusion of intangible brand capital
+ in National Income Accounting and the fact that marketing produces intangible
+ capital that is an (uncounted in national accounts) output when made and
+ an (uncounted) input when put into production 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Brynjolfsson-Rock-Syverson-2021"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+We recommend more testing of LR effects of advertising to balance against
+ the extant literature which mostly focuses on SR and MR.
+ We conjecture that typical findings of small advertising effects on demand
+ are due to empirical strategies that rely on local perturbation to advertising
+ in the SR for a firm that already has a very high level of goodwill (the
+ usual diminishing returns concern).
+ After all, it's hard to ignore the co-existence of Coca Cola and Pepsi,
+ which sell almost undifferentiated Colas but for the brand names, which
+ invest heavily in branding and which both boast market capitalizations
+ in excess of $200 Billion as of October 2021.
+\end_layout
+
+\begin_layout Enumerate
+We also recommend more research into the measurement of marketing human
+ capital and the ability for some firms (e.g., P&G, Coca Cola etc) to produce
+ brand goodwill more efficiently than others (e.g., a new entrant).
+ This implies a potential complementarity between brand capital and marketing
+ expertise capital.
+ This discussion includes 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+the transferability of brand capital and the economic logic of the on-going,
+ recent wave of acquisitions of new brands by large incumbent brand conglomerate
+s (e.g., Budweiser, P&G etc).
+\change_inserted 263584303 1634151968
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 263584303 1634152004
+JP: Perhaps we should clarify the puzzle in this specific context.
+ After all, many brands have 
+\bar under
+grown
+\bar default
+ after acquisition - e.g., Philadelphia Cream Cheese, Folgers Coffee, Gilette
+ Razors etc.
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
+
+\end_layout
+
+\begin_layout Enumerate
+the role of brand capital in models of macro growth and firm/industry productivi
+ty.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+We recommend more focus on the supply side and the measurement of brand
+ value to firms.
+ In principle with enough data, one could use a bottom-up approach that
+ aggregates the brand equity to consumers.
+ Alternatively, productivity methods start with firm-level data.
+\change_inserted 263584303 1634239319
+
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 263584303 1634239773
+As we show above, distribution is also a major area for marketing expenditures.
+ While there is some evidence for relationship capital with the 
+\begin_inset Quotes eld
+\end_inset
+
+trade
+\begin_inset Quotes erd
+\end_inset
+
+, the academic literature has not analyzed the long-term value of these
+ expenditures.
+ A related topic is the brand capital associated with a corporate, as opposed
+ to product, brand.
+\change_unchanged
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename tangibles vs intangibles - Euro vs US.jpeg
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+source: 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Corrdao-Hakel-Iommi-Lasinio-2020"
+literal "false"
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+U.S.
+ Investment Rates in Intangible Capital
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:U.S.-Investment-Rates-intangibles"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename brand equity and growth.jpeg
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+source: 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Corrado-Hao-2013"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Contribution of brand equity to growth in output per hour, 1995-2007
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Contribution-of-brand"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+setstretch{1}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "Intangibles"
+options "ecta"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

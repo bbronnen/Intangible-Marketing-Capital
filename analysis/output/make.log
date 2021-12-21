@@ -1,0 +1,157 @@
+make.bat started	
+di 14-12-2021		
+14:52:37,43		
+
+  ___  ____  ____  ____  ____ (R)
+ /__    /   ____/   /   ____/
+___/   /   /___/   /   /___/   16.0   Copyright 1985-2019 StataCorp LLC
+  Statistics/Data Analysis            StataCorp
+                                      4905 Lakeway Drive
+     MP - Parallel Edition            College Station, Texas 77845 USA
+                                      800-STATA-PC        http://www.stata.com
+                                      979-696-4600        stata@stata.com
+                                      979-696-4601 (fax)
+
+Unlimited-user 2-core Stata network license expires 19 May 2022:
+       Serial number:  501709312204
+         Licensed to:  GIW
+                       Tilburg University
+
+Notes:
+      1.  Stata is running in batch mode.
+      2.  Unicode is supported; see help unicode_advice.
+      3.  More than 2 billion observations are allowed; see help obs_advice.
+      4.  Maximum number of variables is set to 5000; see help set_maxvar.
+
+
+running C:\Program Files\Stata16\profile.do ...
+
+. do figures 
+
+. clear all
+
+. macro drop _all
+
+. 
+. program main
+  1.         preAmbule
+  2.         figureTotalGrowth
+  3.         
+. end
+
+. 
+. program preAmbule
+  1.         cap log close
+  2.         set linesize 250
+  3.         version 16
+  4. 
+.         set matsize 11000
+  5.         set more off, permanently
+  6. 
+.         set seed 12345678
+  7.         set sortseed 12345678
+  8.         set scheme s2mono
+  9.         set type double, permanently 
+ 10.         adopath + ..\external
+ 11.         adopath + ..\external\ado
+ 12.         global locationData "../../data/output"
+ 13. end 
+
+.         
+. program figureTotalGrowth
+  1. 
+.         use $locationData/brandFinance, clear
+  2.         collapse (sum) brandValue, by(year)
+  3.         replace brandValue = brandValue/1000000
+  4.         twoway line brandValue year,  ///
+>                 xtitle(year,size(medsmall)) ytitle(total value (trillion USD)
+> ,size(medsmall)) xlabel(2007(2)2021, labsize(medsmall)) ///
+>                 ylabel(1(.5)4, labsize(medsmall)) graphregion(color(gs16)) ti
+> tle((A)) name(left)
+  5. 
+.         graph export ../output/figures/totalValue.png, replace
+  6.         
+.         use $locationData/brandFinance, clear
+  7.         replace brandValue = log(brandValue/1000)
+  8.         bys brand: egen stdev = sd(position)
+  9.         bys brand: gen obs = _N
+ 10.         
+.         gsort -obs -stdev brand year
+ 11.         graph drop _all
+ 12.         twoway (line brandValue year if brand == "American Express", lcolo
+> r("179 206 225") lpattern("-")) ///
+>                 (line brandValue year if brand == "Ford", lcolor("140 181 210
+> ") lpattern("_--")) ///
+>                 (line brandValue year if brand == "IBM", lcolor("102 156 196"
+> ) lpattern("_-")) ///
+>                 (line brandValue year if brand == "Apple", lcolor("51 123 215
+> ") lpattern("l")) ///
+>                 (line brandValue year if brand == "Microsoft", lcolor("0 90 1
+> 56") lpattern("_")) , ///
+>                 legend(label(1 "American Express") label(2 "Ford") label(3 "I
+> BM") label(4 "Apple") label(5 "Microsoft"))  ///
+>                 xtitle(year,size(medsmall)) ytitle(log total value (billion U
+> SD),size(medsmall)) xlabel(2007(2)2021, labsize(medsmall)) ///
+>                 ylabel(1(1)6, labsize(medsmall)) graphregion(color(gs16)) tit
+> le((B)) name(right)
+ 13.                 
+.         graph export ../output/figures/examplesBrandValue.png, replace
+ 14.         
+. end
+
+. 
+. 
+. program tableBrandFinance
+  1. 
+.         use $locationData/brandFinance, clear
+  2.         graph export ../output/totalValue.png, replace
+  3.         
+. end
+
+. 
+. 
+. main
+set matsize ignored.
+    Matrix sizes are no longer limited by c(matsize) in modern Statas.  Matrix sizes are now limited by flavor of Stata.  See limits for more details.
+(set more preference recorded)
+(set type preference recorded)
+  [1]  (BASE)      "C:\Program Files\Stata16\ado\base/"
+  [2]  (SITE)      "C:\Program Files\Stata16\ado\site/"
+  [3]              "."
+  [4]  (PERSONAL)  "C:\Users\bbronnen\ado\personal/"
+  [5]  (PLUS)      "C:\Users\bbronnen\ado\plus/"
+  [6]  (OLDPLACE)  "c:\ado/"
+  [7]              "..\external"
+  [1]  (BASE)      "C:\Program Files\Stata16\ado\base/"
+  [2]  (SITE)      "C:\Program Files\Stata16\ado\site/"
+  [3]              "."
+  [4]  (PERSONAL)  "C:\Users\bbronnen\ado\personal/"
+  [5]  (PLUS)      "C:\Users\bbronnen\ado\plus/"
+  [6]  (OLDPLACE)  "c:\ado/"
+  [7]              "..\external"
+  [8]              "..\external\ado"
+(15 real changes made)
+(note: file ../output/figures/totalValue.png not found)
+(file ../output/figures/totalValue.png written in PNG format)
+(1,500 real changes made)
+(66 missing values generated)
+(note: file ../output/figures/examplesBrandValue.png not found)
+(file ../output/figures/examplesBrandValue.png written in PNG format)
+
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+.         
+.         
+. 
+end of do-file
+make.bat completed	
+di 14-12-2021		
+14:52:42,69		

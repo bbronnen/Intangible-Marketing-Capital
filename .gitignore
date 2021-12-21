@@ -1,0 +1,17 @@
+#file extensions we do not want to commit
+
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.lyx~ 
+*.xlsx
+*.xls
+*.dta
+*.csv
+
+/temp/*.*
+/Draft/*.lyx~
+/Draft/*.bib
+/raw/brand_value_reports/*.pdf
+/literature/*.pdf
