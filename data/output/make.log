@@ -1,6 +1,6 @@
 make.bat started	
-di 14-12-2021		
-14:27:03,25		
+do 23-12-2021		
+13:28:20,85		
 
   ___  ____  ____  ____  ____ (R)
  /__    /   ____/   /   ____/
@@ -35,8 +35,11 @@ running C:\Program Files\Stata16\profile.do ...
 . 
 . program main
   1.         preAmbule
-  2.         readBrandFinanceData    
-  3. end
+  2.         readBrandFinanceData
+  3.         readInterBrandData
+  4.         makeCrossWalk
+  5.         readNationalAccountData
+  6. end
 
 . 
 . program preAmbule
@@ -53,24 +56,108 @@ running C:\Program Files\Stata16\profile.do ...
   9.         set type double, permanently 
  10.         adopath + ..\external
  11.         adopath + ..\external\ado
- 12.         global locationData "../../raw/brand_value_data"
- 13. end 
+ 12.         global locationBrandData "../../raw/brand_value_data"
+ 13.         global locationNatAccData "../../raw/national_accounts_data"
+ 14. end 
 
 .         
 . program readBrandFinanceData
-  1.         forvalues yr = 2007/2021 {
-  2.                 import delim using "$locationData/brandirectory-ranking-da
-> ta-global-`yr'.csv", varn(1) clear
-  3.                 rename brandvaluem brandValue
-  4.                 drop if position >100 
-  5.                 destring brandValue, force replace 
-  6.                 keep brand year brandValue position
-  7.                 if `yr'>2007 append using ../output/brandFinance.dta
-  8.                 save ../output/brandFinance.dta, replace        
-  9.                 display "`yr'"
- 10.                 sleep 200
- 11.                 }
+  1.         import excel using "$locationBrandData/Brands_2007-2021_BrandDirec
+> toryCom", firstrow clear
+  2.         rename Position rankBrandFinance
+  3.         rename Brand nameBrandFinance
+  4.         rename BrandValueM valueBrandFinance
+  5.         rename Year year
+  6.         replace name = strupper(name)
+  7.         replace name = strrtrim(name)
+  8.         replace name = subinstr(name,".COM", "",.)
+  9.         keep year name rank value
+ 10.         drop if missing(name)
+ 11.         save ../output/brandFinance.dta, replace        
  12. end
+
+. 
+. program readInterBrandData
+  1.         import excel using "$locationBrandData/Brands_2007-2021_RankingThe
+> Brands", firstrow clear
+  2.         rename BrandRank rankInterBrand
+  3.         rename BrandNames nameInterBrand
+  4.         rename BrandValue valueInterBrand
+  5.         replace name = strupper(name)
+  6.         replace name = strrtrim(name)
+  7.         replace name = subinstr(name,".COM", "",.)
+  8.         drop if missing(name)
+  9.         save ../output/interBrand.dta, replace  
+ 10. end
+
+. 
+. program makeCrossWalk
+  1.         use ../output/brandFinance.dta, clear 
+  2.         keep name 
+  3.         gen nameBrand = name
+  4.         duplicates drop
+  5.         save ../output/crossWalk.dta, replace // 
+  6.         sleep 500
+  7.         use ../output/interBrand.dta, clear // merge to interbrand
+  8.         keep name
+  9.         duplicates drop
+ 10.         gen nameBrand = name
+ 11.         mmerge nameBrand using ../output/crossWalk.dta, type(1:1) 
+ 12.         sort nameBrand
+ 13.         duplicates drop
+ 14.         replace nameBrand = subinstr(nameBrand," GROUP", "",.)
+ 15.         replace nameBrand = subinstr(nameBrand," (GROUP)", "",.)
+ 16.         unify_nameBrand // 
+ 17.         duplicates drop
+ 18.         save ../output/crossWalk.dta, replace // 
+ 19. end     
+
+. 
+. program unify_nameBrand
+  1.         replace nameBrand = "CITI" if nameBrand == "CITIBANK" |nameBrand =
+> = "CITIGROUP"  
+  2.         replace nameBrand = "COCA COLA" if nameBrand == "COCA-COLA"
+  3.         replace nameBrand = "COLGATE" if nameBrand == "COLGATE-PALMOLIVE C
+> OMPANY"
+  4.         replace nameBrand = "CVS" if nameBrand == "CVS CAREMARK"|nameBrand
+>  == "CVS HEALTH"
+  5.         replace nameBrand = "DELL" if nameBrand == "DELL EMS"
+  6.         replace nameBrand = "DISCOVERY" if nameBrand == "DISCOVERY CHANNEL
+> "
+  7.         replace nameBrand = "GENERAL ELECTRIC" if nameBrand == "GE"
+  8.         replace nameBrand = "HEWLETT-PACKARD" if nameBrand == "HEWLETT PAC
+> KARD ENTERPRISE"
+  9.         replace nameBrand = "JOHNSON & JOHNSON" if nameBrand == "JOHNSON A
+> ND JOHNSON"
+ 10.         replace nameBrand = "JP MORGAN" if nameBrand == "JPMORGAN"
+ 11.         replace nameBrand = "MITSUBISHI" if nameBrand == "MITSUBISHI CORPO
+> RATION"
+ 12.         replace nameBrand = "MITSUI" if nameBrand == "MITSUI CONGLOMERATE"
+ 13.         replace nameBrand = "NESCAFé" if nameBrand == "NESCAFE"
+ 14.         replace nameBrand = "NESTLé" if nameBrand == "NESTLE"
+ 15.         replace nameBrand = "PEPSI" if nameBrand == "PEPSI-COLA"
+ 16.         replace nameBrand = "T-MOBILE" if nameBrand == "T MOBILE"
+ 17.         replace nameBrand = "T-MOBILE" if nameBrand == "T (DEUTSCHE TELEKO
+> M)"
+ 18.         replace nameBrand = "TENCENT" if nameBrand == "TENCENT (QQ)"
+ 19.         replace nameBrand = "UNITED HEALTHCARE" if nameBrand == "UNITEDHEA
+> LTHCARE"
+ 20.         replace nameBrand = "UNITED HEALTHCARE" if nameBrand == "UNITEDHEA
+> LTH"
+ 21.         replace nameBrand = "VOLKSWAGEN" if nameBrand == "VW (VOLKSWAGEN)"
+ 22. end
+
+. 
+. program readNationalAccountData
+  1.         import excel using "$locationNatAccData/ValueAddedConstantPricesUS
+> D.xlsx", firstrow clear
+  2.         destring Wholesaleretail Manufacturing TotalValueAdded Year, force
+>  replace
+  3.         g ratio = Wholesaleretail/Manufacturing
+  4.         g dist = Wholesaleretail/TotalValueAdded 
+  5.         drop if Country == "" | Year==.
+  6.         save ../output/nationalAccount.dta , replace
+  7. end
 
 . 
 . main
@@ -93,103 +180,101 @@ set matsize ignored.
   [6]  (OLDPLACE)  "c:\ado/"
   [7]              "..\external"
   [8]              "..\external\ado"
-(9 vars, 250 obs)
-(150 observations deleted)
-brandValue: all characters numeric; replaced as double
+(9 vars, 1,500 obs)
+(1,244 real changes made)
+(0 real changes made)
+(11 real changes made)
+(1 observation deleted)
 (note: file ../output/brandFinance.dta not found)
 file ../output/brandFinance.dta saved
-2007
-(9 vars, 500 obs)
-(400 observations deleted)
-brandValue: all characters numeric; replaced as double
-(note: variable brand was str30, now str34 to accommodate using data's values)
-file ../output/brandFinance.dta saved
-2008
-(9 vars, 500 obs)
-(400 observations deleted)
-brandValue: all characters numeric; replaced as double
-(note: variable brand was str31, now str34 to accommodate using data's values)
-file ../output/brandFinance.dta saved
-2009
-(9 vars, 500 obs)
-(400 observations deleted)
-brandValue: all characters numeric; replaced as double
-(note: variable brand was str32, now str34 to accommodate using data's values)
-file ../output/brandFinance.dta saved
-2010
-Note: Unmatched quote while processing row 61; this can be due to a formatting problem in the file or because a quoted data element spans multiple lines. You should carefully inspect your data after importing. Consider using option
-    bindquote(strict) if quoted data spans multiple lines or option bindquote(nobind) if quotes are not used for binding data.
-Note: Unmatched quote while processing row 62; this can be due to a formatting problem in the file or because a quoted data element spans multiple lines. You should carefully inspect your data after importing. Consider using option
-    bindquote(strict) if quoted data spans multiple lines or option bindquote(nobind) if quotes are not used for binding data.
-Note: Unmatched quote while processing row 290; this can be due to a formatting problem in the file or because a quoted data element spans multiple lines. You should carefully inspect your data after importing. Consider using option
-    bindquote(strict) if quoted data spans multiple lines or option bindquote(nobind) if quotes are not used for binding data.
-Note: Unmatched quote while processing row 291; this can be due to a formatting problem in the file or because a quoted data element spans multiple lines. You should carefully inspect your data after importing. Consider using option
-    bindquote(strict) if quoted data spans multiple lines or option bindquote(nobind) if quotes are not used for binding data.
-(9 vars, 502 obs)
-(402 observations deleted)
-brandValue: all characters numeric; replaced as double
-file ../output/brandFinance.dta saved
-2011
-(9 vars, 501 obs)
-(401 observations deleted)
-brandValue: all characters numeric; replaced as double
-(note: variable brand was str41, now str57 to accommodate using data's values)
-file ../output/brandFinance.dta saved
-2012
-(9 vars, 500 obs)
-(400 observations deleted)
-brandValue: all characters numeric; replaced as double
-(note: variable brand was str35, now str57 to accommodate using data's values)
-file ../output/brandFinance.dta saved
-2013
-(9 vars, 500 obs)
-(400 observations deleted)
-brandValue: all characters numeric; replaced as double
-(note: variable brand was str29, now str57 to accommodate using data's values)
-file ../output/brandFinance.dta saved
-2014
-(9 vars, 500 obs)
-(400 observations deleted)
-brandValue: all characters numeric; replaced as double
-(note: variable brand was str32, now str57 to accommodate using data's values)
-file ../output/brandFinance.dta saved
-2015
-(9 vars, 500 obs)
-(400 observations deleted)
-brandValue: all characters numeric; replaced as double
-(note: variable brand was str34, now str57 to accommodate using data's values)
-file ../output/brandFinance.dta saved
-2016
-(9 vars, 500 obs)
-(400 observations deleted)
-brandValue: all characters numeric; replaced as double
-(note: variable brand was str34, now str57 to accommodate using data's values)
-file ../output/brandFinance.dta saved
-2017
-(9 vars, 500 obs)
-(400 observations deleted)
-brandValue: all characters numeric; replaced as double
-(note: variable brand was str41, now str57 to accommodate using data's values)
-file ../output/brandFinance.dta saved
-2018
-(9 vars, 500 obs)
-(400 observations deleted)
-brandValue: all characters numeric; replaced as double
-(note: variable brand was str32, now str57 to accommodate using data's values)
-file ../output/brandFinance.dta saved
-2019
-(9 vars, 500 obs)
-(400 observations deleted)
-brandValue: all characters numeric; replaced as double
-(note: variable brand was str34, now str57 to accommodate using data's values)
-file ../output/brandFinance.dta saved
-2020
-(9 vars, 500 obs)
-(400 observations deleted)
-brandValue: all characters numeric; replaced as double
-(note: variable brand was str32, now str57 to accommodate using data's values)
-file ../output/brandFinance.dta saved
-2021
+(4 vars, 1,500 obs)
+(1,274 real changes made)
+(34 real changes made)
+(0 real changes made)
+(0 observations deleted)
+(note: file ../output/interBrand.dta not found)
+file ../output/interBrand.dta saved
+
+Duplicates in terms of all variables
+
+(1,252 observations deleted)
+(note: file ../output/crossWalk.dta not found)
+file ../output/crossWalk.dta saved
+
+Duplicates in terms of all variables
+
+(1,343 observations deleted)
+
+-------------------------------------------------------------------------------
+merge specs          |
+       matching type | 1:1
+  mv's on match vars | none
+  unmatched obs from | both
+---------------------+---------------------------------------------------------
+  master        file | ../output/interBrand.dta
+                 obs |    157
+                vars |      2
+          match vars | nameBrand  (key)
+  -------------------+---------------------------------------------------------
+  using         file | ../output/crossWalk.dta
+                 obs |    247
+                vars |      2
+          match vars | nameBrand  (key)
+---------------------+---------------------------------------------------------
+(note: variable nameBrand was str26, now str32 to accommodate using data's values)
+result          file | ../output/interBrand.dta
+                 obs |    319
+                vars |      5  (including _merge)
+         ------------+---------------------------------------------------------
+              _merge |     72  obs only in master data                (code==1)
+                     |    162  obs only in using data                 (code==2)
+                     |     85  obs both in master and using data      (code==3)
+-------------------------------------------------------------------------------
+
+Duplicates in terms of all variables
+
+(0 observations are duplicates)
+(14 real changes made)
+(1 real change made)
+(2 real changes made)
+(1 real change made)
+(1 real change made)
+(2 real changes made)
+(0 real changes made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+
+Duplicates in terms of all variables
+
+(0 observations are duplicates)
+file ../output/crossWalk.dta saved
+(11 vars, 12,500 obs)
+Wholesaleretailtraderestaur: contains nonnumeric characters; replaced as double
+(988 missing values generated)
+ManufacturingISICD: contains nonnumeric characters; replaced as double
+(981 missing values generated)
+TotalValueAdded: contains nonnumeric characters; replaced as double
+(938 missing values generated)
+Year: all characters numeric; replaced as int
+(1,031 missing values generated)
+(988 missing values generated)
+(0 observations deleted)
+(note: file ../output/nationalAccount.dta not found)
+file ../output/nationalAccount.dta saved
 
 . 
 . 
@@ -206,5 +291,5 @@ file ../output/brandFinance.dta saved
 . 
 end of do-file
 make.bat completed	
-di 14-12-2021		
-14:27:08,95		
+do 23-12-2021		
+13:28:24,82		

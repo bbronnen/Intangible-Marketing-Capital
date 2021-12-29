@@ -4,7 +4,7 @@ macro drop _all
 program main
 	preAmbule
 	tableBrandFinance
-	
+	tableNationalAccount
 end
 
 program preAmbule
@@ -25,14 +25,30 @@ program preAmbule
 end 
 	
 program tableBrandFinance
-
 	use $locationData/brandFinance, clear
-	foreach var of varlist brandValue position {
+	foreach var of varlist value rank {
 		regress `var' i.year
-		areg `var', abs(brand)
-		areg `var' i.year, abs(brand)
-	}
+		areg `var', abs(nameBrand)
+		areg `var' i.year, abs(nameBrand)
+	}	
+end
 
+program tableInterBrand
+	use $locationData/interBrand, clear
+	foreach var of varlist value rank {
+		regress `var' i.year
+		areg `var', abs(nameBrand)
+		areg `var' i.year, abs(nameBrand)
+	}	
+end
+
+program tableNationalAccount
+	use $locationData/nationalAccount, clear
+	foreach var of varlist distribution ratio {
+		regress `var' i.year if type == "country"
+		areg `var' if type == "country", abs(Country) 
+		areg `var' i.year if type == "country", abs(Country)
+	}
 end
 
 program textClaims
@@ -49,6 +65,19 @@ program textClaims
 	regress ranked l.ranked i.year
 main
 
+
+program mergeBrandValueData
+	use $locationData/brandFinance, clear
+	mmerge nameBrand year using $locationData/interBrand, type(1:1) unm(none)
+	bys nameBrand: gen obs = _N
+	keep if obs == 15
+	regress valueBrandFinance valueInterBrand
+	regress valueBrandFinance valueInterBrand i.year
+	areg valueBrandFinance valueInterBrand, abs(nameBrand)
+	areg valueBrandFinance valueInterBrand i.year, abs(nameBrand)
+	
+	
+end
 
 
 

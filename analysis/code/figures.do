@@ -3,8 +3,8 @@ macro drop _all
 
 program main
 	preAmbule
-	figureTotalGrowth
-	
+	figureGrowthBrandValue
+	figureRatioDistribution
 end
 
 program preAmbule
@@ -24,30 +24,32 @@ program preAmbule
 	global locationData "../../data/output"
 end 
 	
-program figureTotalGrowth
-
+program figureGrowthBrandValue
+	graph drop _all
 	use $locationData/brandFinance, clear
-	collapse (sum) brandValue, by(year)
-	replace brandValue = brandValue/1000000
-	twoway line brandValue year,  ///
-		xtitle(year,size(medsmall)) ytitle(total value (trillion USD),size(medsmall)) xlabel(2007(2)2021, labsize(medsmall)) ///
-		ylabel(1(.5)4, labsize(medsmall)) graphregion(color(gs16)) title((A)) name(left)
+	collapse (sum) valueBrandFinance, by(year)
+	replace valueBrandFinance = valueBrandFinance/1000000
+	twoway line valueBrandFinance year,  ///
+		xtitle(year,size(medsmall)) ///
+		ytitle(total value (trillion USD),size(medsmall)) ///
+		xlabel(2007(2)2021, labsize(medsmall)) ///
+		ylabel(1(.5)4, labsize(medsmall)) ///
+		graphregion(color(gs16)) ///
+		title((A)) name(left)
 
 	graph export ../output/figures/totalValue.png, replace
 	
 	use $locationData/brandFinance, clear
-	replace brandValue = log(brandValue/1000)
-	bys brand: egen stdev = sd(position)
-	bys brand: gen obs = _N
+	replace valueBrandFinance = log(valueBrandFinance/1000)
+	bys nameBrand: egen stdev = sd(rank)
+	bys nameBrand: gen obs = _N
 	
-	gsort -obs -stdev brand year
-	graph drop _all
-	twoway (line brandValue year if brand == "American Express", lcolor("179 206 225") lpattern("-")) ///
-		(line brandValue year if brand == "Ford", lcolor("140 181 210") lpattern("_--")) ///
-		(line brandValue year if brand == "IBM", lcolor("102 156 196") lpattern("_-")) ///
-		(line brandValue year if brand == "Apple", lcolor("51 123 215") lpattern("l")) ///
-		(line brandValue year if brand == "Microsoft", lcolor("0 90 156") lpattern("_")) , ///
-		legend(label(1 "American Express") label(2 "Ford") label(3 "IBM") label(4 "Apple") label(5 "Microsoft"))  ///
+	gsort -obs -stdev nameBrand year
+	twoway (line valueBrandFinance year if nameBrand == "COCA COLA", lcolor("140 181 210") lpattern("_--")) ///
+		(line valueBrandFinance year if nameBrand == "GENERAL ELECTRIC", lcolor("102 156 196") lpattern("_-")) ///
+		(line valueBrandFinance year if nameBrand == "APPLE", lcolor("51 123 215") lpattern("l")) ///
+		(line valueBrandFinance year if nameBrand == "MICROSOFT", lcolor("0 90 156") lpattern("_")) , ///
+		legend(label(1 "Coca Cola") label(2 "General Electric") label(3 "Apple") label(4 "Microsoft"))  ///
 		xtitle(year,size(medsmall)) ytitle(log total value (billion USD),size(medsmall)) xlabel(2007(2)2021, labsize(medsmall)) ///
 		ylabel(1(1)6, labsize(medsmall)) graphregion(color(gs16)) title((B)) name(right)
 		
@@ -55,13 +57,22 @@ program figureTotalGrowth
 	
 end
 
-
-program tableBrandFinance
-
-	use $locationData/brandFinance, clear
-	graph export ../output/totalValue.png, replace
+program figureRatioDistribution
+	use $locationData/nationalAccount, clear
+	
+	graph drop _all
+	twoway (line distribution year if Country == "Europe", lcolor("179 206 225") lpattern("-")) ///
+		(line distribution year if Country == "United States", lcolor("140 181 210") lpattern("l")) ///
+		(line distribution year if Country == "China, People's Republic of", lcolor("102 156 196") lpattern("_-"))  ///
+		, ///
+		legend(label(1 "Europe") label(2 "United States") label(3 "China") )  ///
+		xtitle(year,size(medsmall)) ytitle(share of value-added, size(medsmall)) xlabel(1970(5)2020, labsize(medsmall)) ///
+		ylabel(.05(.03).17, labsize(medsmall)) graphregion(color(gs16)) 
+	
+	graph export ../output/distribution_trend.eps, replace
 	
 end
+	
 
 
 main
