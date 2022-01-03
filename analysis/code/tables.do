@@ -1,5 +1,5 @@
 clear all
-macro drop _all
+
 
 program main
 	preAmbule
