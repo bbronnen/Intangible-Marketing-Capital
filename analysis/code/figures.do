@@ -25,37 +25,54 @@ program preAmbule
 end 
 	
 program figureGrowthBrandValue
-	graph drop _all
+	cap graph drop left1
 	use $locationData/brandFinance, clear
 	collapse (sum) valueBrandFinance, by(year)
 	replace valueBrandFinance = valueBrandFinance/1000000
 	twoway line valueBrandFinance year,  ///
 		xtitle(year,size(medsmall)) ///
 		ytitle(total value (trillion USD),size(medsmall)) ///
-		xlabel(2007(2)2021, labsize(medsmall)) ///
+		xlabel(2008(4)2020, labsize(medsmall)) ///
 		ylabel(1(.5)4, labsize(medsmall)) ///
 		graphregion(color(gs16)) ///
-		title((A)) name(left)
+		title((A)) name(left1)
 
 	graph export ../output/figures/totalValue.png, replace
 	
-	use $locationData/brandFinance, clear
-	replace valueBrandFinance = log(valueBrandFinance/1000)
-	bys nameBrand: egen stdev = sd(rank)
-	bys nameBrand: gen obs = _N
+	cap graph drop right left2
+	forvalues case = 1/2 {
+		if `case' == 2 {
+			use $locationData/brandFinance, clear 
+			local nm "right"
+			local source "Brand Finance"
+		}
+		if `case' == 1 {
+			use $locationData/interBrand, clear 
+			local nm "left2"
+			local source "Interbrand"
+		}
+		replace value = log10(value/1000)
+		bys nameBrand: egen stdev = sd(rank)
+		bys nameBrand: gen obs = _N
 	
-	gsort -obs -stdev nameBrand year
-	twoway (line valueBrandFinance year if nameBrand == "COCA COLA", lcolor("140 181 210") lpattern("_--")) ///
-		(line valueBrandFinance year if nameBrand == "GENERAL ELECTRIC", lcolor("102 156 196") lpattern("_-")) ///
-		(line valueBrandFinance year if nameBrand == "APPLE", lcolor("51 123 215") lpattern("l")) ///
-		(line valueBrandFinance year if nameBrand == "MICROSOFT", lcolor("0 90 156") lpattern("_")) , ///
-		legend(label(1 "Coca Cola") label(2 "General Electric") label(3 "Apple") label(4 "Microsoft"))  ///
-		xtitle(year,size(medsmall)) ytitle(log total value (billion USD),size(medsmall)) xlabel(2007(2)2021, labsize(medsmall)) ///
-		ylabel(1(1)6, labsize(medsmall)) graphregion(color(gs16)) title((B)) name(right)
+		gsort -obs -stdev nameBrand year
+		twoway (line value year if nameBrand == "COCA COLA", lcolor("140 181 210") lpattern("_--")) ///
+			(line value year if nameBrand == "GENERAL ELECTRIC", lcolor("102 156 196") lpattern("_-")) ///
+			(line value year if nameBrand == "APPLE", lcolor("51 123 215") lpattern("l")) ///
+			(line value year if nameBrand == "MICROSOFT", lcolor("0 90 156") lpattern("_")) , ///
+			legend(region(lstyle(none)) ring(0) position(5) bmargin(small) label(1 "Coca Cola") label(2 "General Electric") label(3 "Apple") label(4 "Microsoft"))  ///
+			xtitle(year,size(medsmall)) ytitle(10log total value (billion USD),size(medsmall)) xlabel(2008(4)2020, labsize(medsmall)) ///
+			ylabel(.5(.5)3, angle(90) labsize(medsmall)) graphregion(color(gs16)) title(`source') name(`nm')
 		
-	graph export ../output/figures/examplesBrandValue.png, replace
+		graph export ../output/figures/examplesBrandValue`case'.pdf, replace
+	}
 	
+	
+	graph combine left2 right, 	graphregion(color(gs16)) ysize(5) xsize(10)
+	graph export ../output/figures/examplesBrandValueSideBySide.pdf, replace
 end
+
+
 
 program figureRatioDistribution
 	use $locationData/nationalAccount, clear
