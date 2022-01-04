@@ -72,8 +72,6 @@ program figureGrowthBrandValue
 	graph export ../output/figures/examplesBrandValueSideBySide.pdf, replace
 end
 
-
-
 program figureRatioDistribution
 	use $locationData/nationalAccount, clear
 	
@@ -91,6 +89,34 @@ program figureRatioDistribution
 end
 	
 
+program figureEmployment
+	use $locationData/employmentBySector, clear
+
+	gen distribution = WholesaleRetail/TotalEmployment
+	gen manufacturing = Manufacturing/TotalEmployment
+	//drop if year<2000 
+	graph drop _all
+	local regions "Europe US"
+	foreach reg of local regions {
+		if "`reg'" == "US" local early = 1970
+		if "`reg'" == "Europe" local early = 2000
+		
+		twoway (line distribution year if region == "`reg'", lcolor("179 206 225") lpattern("l")) ///
+			   (line manufacturing year if region == "`reg'", lcolor("140 181 210") lpattern("--")) ///
+		, ///
+		legend(region(lstyle(none)) ring(0) position(5) bmargin(small) /// 
+			label(1 "WholesaleRetail") label(2 "Manufacturing") )  ///
+		xtitle(year,size(medsmall)) ytitle(share of labor force, size(medsmall)) ///
+		xlabel(`early'(5)2020, labsize(medsmall)) ///
+		ylabel(.04(.02).22, labsize(medsmall)) ///
+		graphregion(color(gs16)) ///
+		title(`reg') name(`reg')
+	}
+	
+	graph combine Europe US, graphregion(color(gs16)) ysize(5) xsize(10)
+	graph export ../output/figures/examplesEmploymentSideBySide.pdf, replace
+	
+end
 
 main
 

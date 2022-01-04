@@ -15,5 +15,17 @@ In the ManualVerification.xlsx file, it can be seen that for every year, 5 brand
 Cross walk 
 
 5. National Accounts Data (12/22/21)
-https://unstats.un.org/unsd/snaama/Basic
+Source: https://unstats.un.org/unsd/snaama/Basic
+Downloaded file: ValueAddedConstantPricesUSD.xlsx
+
+6. Eurostat Data (1/4/22)
+Source: https://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=nama_10_a64_e&lang=en
+Downloaded file: EuroStatEmployment.xlsx
+
+7. BLS Employment data (1/4/22)
+Source: https://www.bls.gov/iag/tgs/iag42.htm
+Downloaded file: BureauLaborStats.xlsx (also note headers in sheets for additional information)
+
+
+
 

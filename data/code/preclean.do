@@ -8,6 +8,8 @@ program main
 	makeCrossWalk
 	mergeBrandName
 	readNationalAccountData
+	readEuroStatData
+	readBLSData
 end
 
 program preAmbule
@@ -77,23 +79,6 @@ program makeCrossWalk
 	save ../output/crossWalk.dta, replace // 
 end	
 
-
-program mergeBrandName
-
-	use ../output/crossWalk.dta, clear //
-	drop if missing(nameInterBrand)
-	drop nameBrandFinance
-	mmerge nameInterBrand using ../output/interBrand.dta, type(1:n) unm(both)
-	save ../output/interBrand.dta, replace	
-	
-	use ../output/crossWalk.dta, clear //
-	drop if missing(nameBrandFinance)
-	drop nameInterBrand
-	mmerge nameBrandFinance using ../output/brandFinance.dta, type(1:n) unm(both)
-	save ../output/brandFinance.dta, replace	
-	
-end
-
 program unify_nameBrand
 	replace nameBrand = "CITI" if nameBrand == "CITIBANK" |nameBrand == "CITIGROUP"  
 	replace nameBrand = "COCA COLA" if nameBrand == "COCA-COLA"
@@ -118,6 +103,22 @@ program unify_nameBrand
 	replace nameBrand = "VOLKSWAGEN" if nameBrand == "VW (VOLKSWAGEN)"
 end
 
+program mergeBrandName
+
+	use ../output/crossWalk.dta, clear //
+	drop if missing(nameInterBrand)
+	drop nameBrandFinance
+	mmerge nameInterBrand using ../output/interBrand.dta, type(1:n) unm(both)
+	save ../output/interBrand.dta, replace	
+	
+	use ../output/crossWalk.dta, clear //
+	drop if missing(nameBrandFinance)
+	drop nameInterBrand
+	mmerge nameBrandFinance using ../output/brandFinance.dta, type(1:n) unm(both)
+	save ../output/brandFinance.dta, replace	
+	
+end
+
 program readNationalAccountData
 	import excel using "$locationNatAccData/ValueAddedConstantPricesUSD.xlsx", firstrow clear
 	destring Wholesaleretail Manufacturing TotalValueAdded Year, force replace
@@ -127,15 +128,68 @@ program readNationalAccountData
 	
 	drop if Country == "" | year==.
 	gen type = "country"
-	replace type = "region" if inlist(Country, "Australia and New Zealand", "Central America", "Eastern Africa", "Eastern Asia", "Eastern Africa", "Latin America and the Caribbean")
-	replace type = "region" if inlist(Country, "Northern Africa", "Northern America", "Northern Europe", "Southern Europe", "Southern Asia", "Southern Africa", "South-Eastern Asia")
-	replace type = "region" if inlist(Country, "South America", "Western Africa", "Western Asia", "Western Europe")
-	replace type = "continent" if inlist(Country, "Africa", "Americas", "Asia", "Europe", "Oceania")
+	replace type = "region" if inlist(Country, "Australia and New Zealand",  /// 
+		"Central America", "Eastern Africa", "Eastern Asia", "Eastern Africa", ///
+		"Latin America and the Caribbean")
+	replace type = "region" if inlist(Country, "Northern Africa", /// 
+		"Northern America", "Northern Europe", "Southern Europe", /// 
+		"Southern Asia", "Southern Africa", "South-Eastern Asia")
+	replace type = "region" if inlist(Country, "South America", "Western Africa", ///
+		"Western Asia", "Western Europe")
+	replace type = "continent" if inlist(Country, "Africa", "Americas", "Asia", ///
+		"Europe", "Oceania")
 	replace type = "world" if Country == "World"
 	save ../output/nationalAccount.dta , replace
-	
-	
 end
+
+program labelsToNames
+	foreach v of var * {
+		local lbl : var label `v'
+		local lbl = strtoname("`lbl'")
+		rename `v' `lbl'
+	}
+end
+
+program readEuroStatData
+	foreach ic of numlist 10 13 16  {
+		import excel using "$locationNatAccData/EuroStatEmployment.xlsx", ///
+			sheet("Data`ic'") cellrange(A11:V12) firstrow clear
+		labelsToNames
+		reshape long _, i(GEO) j(year) 
+		drop GEO
+		if `ic'==10 rename _ TotalEmployment 
+		if `ic'==13 rename _ Manufacturing 
+		if `ic'==16 rename _ WholesaleRetail 
+		if `ic' >10 mmerge year using ../output/EmploymentBySector.dta, type(1:1) unm(none)
+		sleep 500
+		save ../output/EmploymentBySector.dta, replace
+	}
+	drop _m 
+	gen region = "Europe"	
+	save ../output/EmploymentBySector.dta, replace
+end
+
+program readBLSData
+	local sector "Wholesale Retail Manufacturing Total"
+	foreach sec of local sector  {
+		import excel using "$locationNatAccData/BureauLaborStats.xlsx", ///
+			sheet("`sec'") cellrange(A13:M64) firstrow clear
+		keep Year Dec
+		rename Year year
+		rename Dec `sec'
+		if "`sec'" != "Wholesale" mmerge year using ../output/EmploymentBySectorBLS.dta, type(1:1) unm(none)
+		sleep 1000
+		save ../output/EmploymentBySectorBLS.dta, replace
+	}
+	gen region = "US"	
+	rename Total TotalEmployment
+	gen WholesaleRetail = Wholesale + Retail
+	drop Wholesale Retail _m 
+	append using ../output/EmploymentBySector.dta
+	save ../output/EmploymentBySector.dta, replace
+end
+
+
 
 main
 
