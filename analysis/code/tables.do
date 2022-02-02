@@ -26,6 +26,14 @@ end
 	
 program tableBrandFinance
 	use $locationData/brandFinance, clear
+	preserve
+		bys nameBrand: gen freq = _N
+		keep if freq > 10 
+		drop freq _merge nameBrandFinance
+		bys nameBrand: egen avrank = mean(rank) 
+		sort avrank nameBrand year
+		export excel using ../output/brandFinance.xlsx, first(variables) replace
+	restore
 	foreach var of varlist value rank {
 		regress `var' i.year
 		areg `var', abs(nameBrand)
