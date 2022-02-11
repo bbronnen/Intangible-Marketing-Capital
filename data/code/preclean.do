@@ -1,6 +1,11 @@
 clear all
 macro drop _all
 
+cap cd temp
+cap erase *.* 
+rmdir temp
+mkdir temp 
+
 program main
 	preAmbule
 	readBrandFinanceData
@@ -10,6 +15,7 @@ program main
 	readNationalAccountData
 	readEuroStatData
 	readBLSData
+	readCompuStatData
 end
 
 program preAmbule
@@ -28,6 +34,8 @@ program preAmbule
 	adopath + ..\external\ado
 	global locationBrandData "../../raw/brand_value_data"
 	global locationNatAccData "../../raw/national_accounts_data"
+	global locationCompuStatData "../../raw/asset_data"
+	
 end 
 	
 program readBrandFinanceData
@@ -119,6 +127,19 @@ program mergeBrandName
 	
 end
 
+program readBrandFinanceData
+	import excel using "$locationCompuStatData/assetsCompuStat", firstrow sheet("all") clear
+	keep nameBrand Ticker
+	rename Ticker ticker
+	sort nameBrand ticker 
+	duplicates drop
+	drop if missing(ticker) // no asset data from compustat
+	egen check = group(ticker)
+	summ check
+	assert(r(max)==r(N)) //ticker is a key
+	
+end
+
 program readNationalAccountData
 	import excel using "$locationNatAccData/ValueAddedConstantPricesUSD.xlsx", firstrow clear
 	destring Wholesaleretail Manufacturing TotalValueAdded Year, force replace
@@ -151,9 +172,16 @@ program labelsToNames
 end
 
 program readEuroStatData
+	import excel using "$locationCompuStatData/assetsCompustat.xlsx", ///
+			sheet("US") firstrow clear
+	rename DataYearFiscal year
+	
+	drop if IndustryFormat == "FS"
+	drop DataDate IndustryFormat K L INDL N O FSf Q
+	
+			
+
 	foreach ic of numlist 10 13 16  {
-		import excel using "$locationNatAccData/EuroStatEmployment.xlsx", ///
-			sheet("Data`ic'") cellrange(A11:V12) firstrow clear
 		labelsToNames
 		reshape long _, i(GEO) j(year) 
 		drop GEO

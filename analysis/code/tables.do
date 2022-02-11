@@ -28,7 +28,7 @@ program tableBrandFinance
 	use $locationData/brandFinance, clear
 	preserve
 		bys nameBrand: gen freq = _N
-		keep if freq > 10 
+		//keep if freq > 10 
 		drop freq _merge nameBrandFinance
 		bys nameBrand: egen avrank = mean(rank) 
 		sort avrank nameBrand year
