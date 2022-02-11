@@ -3,8 +3,9 @@ macro drop _all
 
 cap cd temp
 cap erase *.* 
-rmdir temp
-mkdir temp 
+cd  
+cap rmdir temp
+cap mkdir temp 
 
 program main
 	preAmbule
@@ -32,6 +33,16 @@ program preAmbule
 	set type double, permanently 
 	adopath + ..\external
 	adopath + ..\external\ado
+
+	capture confirm file temp
+	if !_rc {
+		cd temp
+		cap erase *.*
+		cd ..
+		rmdir temp
+		}
+	mkdir temp
+	
 	global locationBrandData "../../raw/brand_value_data"
 	global locationNatAccData "../../raw/national_accounts_data"
 	global locationCompuStatData "../../raw/asset_data"
@@ -172,16 +183,9 @@ program labelsToNames
 end
 
 program readEuroStatData
-	import excel using "$locationCompuStatData/assetsCompustat.xlsx", ///
-			sheet("US") firstrow clear
-	rename DataYearFiscal year
-	
-	drop if IndustryFormat == "FS"
-	drop DataDate IndustryFormat K L INDL N O FSf Q
-	
-			
-
-	foreach ic of numlist 10 13 16  {
+foreach ic of numlist 10 13 16  {
+		import excel using "$locationNatAccData/EuroStatEmployment.xlsx", ///
+			sheet("Data`ic'") cellrange(A11:V12) firstrow clear
 		labelsToNames
 		reshape long _, i(GEO) j(year) 
 		drop GEO
@@ -217,6 +221,40 @@ program readBLSData
 	save ../output/EmploymentBySector.dta, replace
 end
 
+program readCompuStatData
+	import excel using "$locationCompuStatData/assetsCompustat.xlsx", ///
+			sheet("US") firstrow clear
+	rename DataYearFiscal year
+	gen region = "US"
+	drop if IndustryFormat == "FS"
+	save temp/US.dta, replace
+	
+	import excel using "$locationCompuStatData/assetsCompustat.xlsx", ///
+			sheet("non-US") firstrow clear
+	rename DataYearFiscal year
+	gen region = "non-US"
+	append using temp/US.dta
+	replace Ticker = GlobalCompanyKey if region == "non-US" 
+	rename Ticker idCode
+	keep year idCode CompanyName AssetsTotal Goodwill IntangibleAssetsTotal ///
+		PropertyPlantandEquipment region OtherIntangibles
+	
+	drop if CompanyName == "AXA ASIA PACIFIC HLDGS LTD" //non-US version. AXA SA included (US registered) 
+	drop if CompanyName == "SUN ART RETAIL GROUP LTD" & missing(PropertyPlantandEquipment) // incomplete
+	drop if CompanyName == "CA INC" //keep larger non-US version of Carrefour 
+	drop if CompanyName == "CHINA EVERGRANDE NEW ENERGY" & missing(PropertyPlantandEquipment) // incomplete
+	drop if CompanyName == "NISSAN MOTOR CO LTD" & region == "US" //keep larger non-US version. 
+	drop if CompanyName == "VOLVO AB" & region == "US" //keep larger non-US version.
+	drop if CompanyName == "ENGIE BRASIL ENERGIA SA" //keep larger US version of Engie 
+	drop if year == 2021 //incomplete data
+	sort idCode year
+ 	save temp/all.dta, replace
+	
+	import excel using "$locationCompuStatData/idCode2nameBrand.xlsx", firstrow clear
+	mmerge idCode using temp/all.dta, type(1:n) unm(none)
+	sort nameBrand year
+	save ../output/assetData.dta, replace
+end
 
 
 main

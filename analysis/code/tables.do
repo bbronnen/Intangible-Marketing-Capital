@@ -21,6 +21,16 @@ program preAmbule
 	set type double, permanently 
 	adopath + ..\external
 	adopath + ..\external\ado
+	
+	capture confirm file temp
+	if !_rc {
+		cd temp
+		cap erase *.*
+		cd ..
+		rmdir temp
+		}
+	mkdir temp
+	
 	global locationData "../../data/output"
 end 
 	
@@ -89,7 +99,6 @@ program mergeBrandValueData
 	regress valueBrandFinance valueInterBrand i.year
 	areg valueBrandFinance valueInterBrand, abs(nameBrand)
 	areg valueBrandFinance valueInterBrand i.year, abs(nameBrand)
-	
 	
 end
 

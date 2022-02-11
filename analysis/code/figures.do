@@ -21,29 +21,62 @@ program preAmbule
 	set type double, permanently 
 	adopath + ..\external
 	adopath + ..\external\ado
+	
+	capture confirm file temp
+	if !_rc {
+		cd temp
+		cap erase *.*
+		cd ..
+		rmdir temp
+		}
+	mkdir temp
+	
 	global locationData "../../data/output"
 end 
 	
 program figureGrowthBrandValue
-	cap graph drop left1
-	use $locationData/brandFinance, clear
-	collapse (sum) valueBrandFinance, by(year)
-	replace valueBrandFinance = valueBrandFinance/1000000
+	cap graph drop left1 right1
+	use $locationData/brandFinance, clear	
+	mmerge nameBrand year using $locationData/assetData, type(1:1) unm(none)
+	drop if year == 2021
+	bys nameBrand: gen obs = _N 
+	drop if obs<10
+	keep if region == "US"
+	tab nameBrand
+	gen valueSelective = valueBrandFinance*(1-missing(Property)) 
+	gen valueSelective2 = valueBrandFinance 
+	
+	gen propertySelective = PropertyPlantandEquipment if valueBrandFinance>0
+	gen test = valueSelective/propertySelective
+	collapse (sum) valueSelective2 valueSelective propertySelective, by(year)
+	gen valueBrandFinance = valueSelective2/1000000
+	gen normBrandFinance = valueSelective/propertySelective
+	
 	twoway line valueBrandFinance year,  ///
 		xtitle(year,size(medsmall)) ///
-		ytitle(total value (trillion USD),size(medsmall)) ///
+		ytitle(trillion USD,size(medsmall)) ///
 		xlabel(2008(4)2020, labsize(medsmall)) ///
-		ylabel(1(.5)4, labsize(medsmall)) ///
+		ylabel(0.5(.5)3, labsize(medsmall)) ///
 		graphregion(color(gs16)) ///
-		title((A)) name(left1)
+		title(Combined brand value) name(left1)
 
-	graph export ../output/figures/totalValue.png, replace
+	twoway line normBrandFinance year,  ///
+		xtitle(year,size(medsmall)) ///
+		ytitle(value/PPE,size(medsmall)) ///
+		xlabel(2008(4)2020, labsize(medsmall)) ///
+		ylabel(0(.1).7, labsize(medsmall)) ///
+		graphregion(color(gs16)) ///
+		title(Normalized brand value) name(right1)
+
+	graph combine left1 right1, graphregion(color(gs16)) ysize(5) xsize(10)
+	graph export ../output/figures/brandValueSideBySide.pdf, replace
 	
-	cap graph drop right left2
+
+	cap graph drop right2 left2
 	forvalues case = 1/2 {
 		if `case' == 2 {
 			use $locationData/brandFinance, clear 
-			local nm "right"
+			local nm "right2"
 			local source "Brand Finance"
 		}
 		if `case' == 1 {
