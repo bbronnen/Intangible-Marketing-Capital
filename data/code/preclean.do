@@ -1,11 +1,6 @@
 clear all
 macro drop _all
 
-cap cd temp
-cap erase *.* 
-cd  
-cap rmdir temp
-cap mkdir temp 
 
 program main
 	preAmbule
@@ -34,10 +29,11 @@ program preAmbule
 	adopath + ..\external
 	adopath + ..\external\ado
 
-	capture confirm file temp
+	capture confirmdir temp
+	di _rc
 	if !_rc {
 		cd temp
-		cap erase *.*
+		cap !del *.*
 		cd ..
 		rmdir temp
 		}

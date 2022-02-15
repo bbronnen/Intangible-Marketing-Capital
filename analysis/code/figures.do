@@ -22,10 +22,11 @@ program preAmbule
 	adopath + ..\external
 	adopath + ..\external\ado
 	
-	capture confirm file temp
+	capture confirmdir temp	
+	di _rc
 	if !_rc {
 		cd temp
-		cap erase *.*
+		cap !del *.*
 		cd ..
 		rmdir temp
 		}
@@ -40,23 +41,22 @@ program figureGrowthBrandValue
 	mmerge nameBrand year using $locationData/assetData, type(1:1) unm(none)
 	drop if year == 2021
 	bys nameBrand: gen obs = _N 
-	drop if obs<10
-	keep if region == "US"
+	drop if obs<1
+	keep if US == 1
 	tab nameBrand
 	gen valueSelective = valueBrandFinance*(1-missing(Property)) 
-	gen valueSelective2 = valueBrandFinance 
-	
-	gen propertySelective = PropertyPlantandEquipment if valueBrandFinance>0
-	gen test = valueSelective/propertySelective
-	collapse (sum) valueSelective2 valueSelective propertySelective, by(year)
-	gen valueBrandFinance = valueSelective2/1000000
+	gen propertySelective = PropertyPlantandEquipment
+
+	collapse (sum) valueSelective valueBrandFinance propertySelective, by(year)
+	gen valueBrandFinanceMM = valueBrandFinance/1000000
+	gen propertySelective2 = propertySelective/1000000
 	gen normBrandFinance = valueSelective/propertySelective
 	
-	twoway line valueBrandFinance year,  ///
+	twoway line valueBrandFinanceMM year ,  ///
 		xtitle(year,size(medsmall)) ///
 		ytitle(trillion USD,size(medsmall)) ///
 		xlabel(2008(4)2020, labsize(medsmall)) ///
-		ylabel(0.5(.5)3, labsize(medsmall)) ///
+		ylabel(0.5(.25)2, labsize(medsmall)) ///
 		graphregion(color(gs16)) ///
 		title(Combined brand value) name(left1)
 
@@ -64,12 +64,12 @@ program figureGrowthBrandValue
 		xtitle(year,size(medsmall)) ///
 		ytitle(value/PPE,size(medsmall)) ///
 		xlabel(2008(4)2020, labsize(medsmall)) ///
-		ylabel(0(.1).7, labsize(medsmall)) ///
+		ylabel(.2(.1).8, labsize(medsmall)) ///
 		graphregion(color(gs16)) ///
 		title(Normalized brand value) name(right1)
 
 	graph combine left1 right1, graphregion(color(gs16)) ysize(5) xsize(10)
-	graph export ../output/figures/brandValueSideBySide.pdf, replace
+	graph export ../output/figures/USBrandValueSideBySide.png, replace
 	
 
 	cap graph drop right2 left2
@@ -101,7 +101,7 @@ program figureGrowthBrandValue
 	}
 	
 	
-	graph combine left2 right, 	graphregion(color(gs16)) ysize(5) xsize(10)
+	graph combine left2 right2, 	graphregion(color(gs16)) ysize(5) xsize(10)
 	graph export ../output/figures/examplesBrandValueSideBySide.pdf, replace
 end
 
