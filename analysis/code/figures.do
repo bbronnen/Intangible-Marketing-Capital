@@ -33,38 +33,88 @@ program preAmbule
 	mkdir temp
 	
 	global locationData "../../data/output"
+	global locationDataChad "../../../marketing as intangibles/tables"
 end 
 	
-program figureGrowthBrandValue
-	cap graph drop left1 right1
-	use $locationData/brandFinance, clear	
-	mmerge nameBrand year using $locationData/assetData, type(1:1) unm(none)
-	drop if year == 2021
-	bys nameBrand: gen obs = _N 
-	drop if obs<1
-	keep if US == 1
-	tab nameBrand
-	gen valueSelective = valueBrandFinance*(1-missing(Property)) 
-	gen propertySelective = PropertyPlantandEquipment
 
+program figureGrowthBrandValue
+	cap graph drop _all
+	import excel using "$locationDataChad/IRS Advertising and GDP.xlsx", sheet(GDP-Advertising Ratio) first clear
+	rename A year 
+	rename Implied advCapital
+	rename Advcapitalass advCapitalRatioEquip
+	keep year advCapital*
+	drop if year>2018
+	
+	foreach var of varlist advCapital* {
+		cap drop yoyGrowth
+		gen yoyGrowth = `var'/`var'[_n-1]
+		qui summ yoyGrowth
+		di "average y-o-y growth:" `r(mean)'
+		}
+	
+	twoway line advCapital year ,  ///
+		xtitle(year,size(medsmall)) ///
+		ytitle(billions of USD,size(medsmall)) ///
+		xlabel(1954(8)2018, labsize(medsmall)) ///
+		ylabel(0(50)350, labsize(medsmall)) ///
+		graphregion(color(gs16)) ///
+		title(Capitalized Advertising) name(left1)
+
+	drop if year == 2021 //only available for a half of companies
+		
+	twoway line advCapitalRatio year,  ///
+		xtitle(year,size(medsmall)) ///
+		ytitle(ratio,size(medsmall)) ///
+		xlabel(1954(8)2018, labsize(medsmall)) ///
+		ylabel(.0(.005)0.025, labsize(medsmall)) ///
+		graphregion(color(gs16)) ///
+		title(Cap.Adv./(Equipment + Structure Capital)) name(right1)
+
+	graph combine left1 right1, graphregion(color(gs16)) ysize(5) xsize(10)
+	graph export ../output/figures/capAdvSideBySide.png, replace
+	
+
+end
+
+program figureGrowthBrandValue
+	cap graph drop _all
+	use $locationData/brandFinance, clear	
+	mmerge nameBrand year using $locationData/assetData, type(1:1) unm(master)
+	
+	gen screen = (1-missing(Property)) // PPE data only for traded firms, condition on USD
+	gen valueSelective = valueBrandFinance*screen
+	gen propertySelective = PropertyPlantandEquipment*screen
+	gen test = valueSelective/propertySelective
 	collapse (sum) valueSelective valueBrandFinance propertySelective, by(year)
+	
 	gen valueBrandFinanceMM = valueBrandFinance/1000000
 	gen propertySelective2 = propertySelective/1000000
 	gen normBrandFinance = valueSelective/propertySelective
 	
+	foreach var of varlist valueBrandFinanceMM normBrandFinance {
+		cap drop yoyGrowth
+		gen yoyGrowth = `var'/`var'[_n-1]
+		qui summ yoyGrowth
+		di "average y-o-y growth:" `r(mean)'
+		
+		}
+	
 	twoway line valueBrandFinanceMM year ,  ///
 		xtitle(year,size(medsmall)) ///
 		ytitle(trillion USD,size(medsmall)) ///
-		xlabel(2008(4)2020, labsize(medsmall)) ///
-		ylabel(0.5(.25)2, labsize(medsmall)) ///
+		xlabel(2008(4)2021, labsize(medsmall)) ///
+		ylabel(0.5(.5)5, labsize(medsmall)) ///
 		graphregion(color(gs16)) ///
 		title(Combined brand value) name(left1)
 
+	drop if year == 2021 //only available for a half of companies
+		
 	twoway line normBrandFinance year,  ///
 		xtitle(year,size(medsmall)) ///
 		ytitle(value/PPE,size(medsmall)) ///
-		xlabel(2008(4)2020, labsize(medsmall)) ///
-		ylabel(.2(.1).8, labsize(medsmall)) ///
+		xlabel(2008(4)2021, labsize(medsmall)) ///
+		ylabel(.0(.2)1, labsize(medsmall)) ///
 		graphregion(color(gs16)) ///
 		title(Normalized brand value) name(right1)
 
@@ -72,7 +122,7 @@ program figureGrowthBrandValue
 	graph export ../output/figures/USBrandValueSideBySide.png, replace
 	
 
-	cap graph drop right2 left2
+	cap graph drop _all
 	forvalues case = 1/2 {
 		if `case' == 2 {
 			use $locationData/brandFinance, clear 
@@ -102,7 +152,7 @@ program figureGrowthBrandValue
 	
 	
 	graph combine left2 right2, 	graphregion(color(gs16)) ysize(5) xsize(10)
-	graph export ../output/figures/examplesBrandValueSideBySide.pdf, replace
+	graph export ../output/figures/examplesBrandValueSideBySide.png, replace
 end
 
 program figureRatioDistribution

@@ -218,34 +218,42 @@ program readBLSData
 end
 
 program readCompuStatData
-	import excel using "$locationCompuStatData/assetsCompustat.xlsx", ///
+	import excel using "$locationCompuStatData/assetsCompustat2.xlsx", ///
 			sheet("US") firstrow clear
 	rename DataYearFiscal year
 	gen region = "US"
 	drop if IndustryFormat == "FS"
 	save temp/US.dta, replace
 	
-	import excel using "$locationCompuStatData/assetsCompustat.xlsx", ///
-			sheet("non-US") firstrow clear
+	import excel using "$locationCompuStatData/assetsCompustat2.xlsx", ///
+			sheet("non-US converted") firstrow clear
 	rename DataYearFiscal year
 	gen region = "non-US"
 	append using temp/US.dta
-	replace Ticker = GlobalCompanyKey if region == "non-US" 
+	replace Ticker = CompanyName if region == "non-US" 
 	rename Ticker idCode
-	keep year idCode CompanyName AssetsTotal Goodwill IntangibleAssetsTotal ///
-		PropertyPlantandEquipment region OtherIntangibles
+	keep year idCode CompanyName AssetsTotal Goodwill IntangibleAssetsTotal region ///
+		PropertyPlantandEquipment OtherIntangibles NorthAmericanIndustryClass /// 
+		StandardIndustryClassification
 	
-	drop if CompanyName == "AXA ASIA PACIFIC HLDGS LTD" //non-US version. AXA SA included (US registered) 
 	drop if CompanyName == "SUN ART RETAIL GROUP LTD" & missing(PropertyPlantandEquipment) // incomplete
 	drop if CompanyName == "CA INC" //keep larger non-US version of Carrefour 
 	drop if CompanyName == "CHINA EVERGRANDE NEW ENERGY" & missing(PropertyPlantandEquipment) // incomplete
 	drop if CompanyName == "NISSAN MOTOR CO LTD" & region == "US" //keep larger non-US version. 
 	drop if CompanyName == "VOLVO AB" & region == "US" //keep larger non-US version.
-	drop if CompanyName == "ENGIE BRASIL ENERGIA SA" //keep larger US version of Engie 
-	drop if year == 2021 //incomplete data
+	drop if CompanyName == "ALLIANZ SE" & region == "non-US" //duplicate
+	drop if CompanyName == "BAYER AG" & region == "non-US" //duplicate
+	drop if CompanyName == "DEUTSCHE TELEKOM" & region == "non-US" //duplicate
+	drop if CompanyName == "ENGIE" & region == "non-US" //duplicate
+	drop if CompanyName == "PANASONIC" & region == "non-US" // duplicate
+	drop if CompanyName == "TOSHIBA CORP" & region == "non-US" //duplicate
+	drop if CompanyName == "VOLKSWAGEN AG" & region == "non-US" //duplicate
+	drop if CompanyName == "VOLVO AB" & region == "non-US" //duplicate
+	
+	//drop if year == 2021 //incomplete data
 	sort idCode year
  	save temp/all.dta, replace
-	
+		
 	import excel using "$locationCompuStatData/idCode2nameBrand.xlsx", firstrow clear
 	mmerge idCode using temp/all.dta, type(1:n) unm(none)
 	sort nameBrand year

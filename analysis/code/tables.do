@@ -92,10 +92,8 @@ program mergeBrandValueData
 	use $locationData/brandFinance, clear
 	mmerge nameBrand year using $locationData/interBrand, type(1:1) unm(none)
 	bys nameBrand: gen obs = _N
+	corr value*
 	regress valueBrandFinance valueInterBrand
-	drop if obs<15
-	regress valueBrandFinance valueInterBrand
-	
 	regress valueBrandFinance valueInterBrand i.year
 	areg valueBrandFinance valueInterBrand, abs(nameBrand)
 	areg valueBrandFinance valueInterBrand i.year, abs(nameBrand)
